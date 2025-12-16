@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Editorial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f5f2; /* 暖米色纸张感 */
+            --text-primary: #2c2c2c;
+            --text-secondary: #6e6e6e;
+            --accent: #c05c47; /* 陶土红，不仅不刺眼，反而很高级 */
+            --border: rgba(0,0,0,0.06);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif; /* 正文用无衬线 */
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Noto Serif SC', serif; /* 标题用衬线体，书卷气 */
+            font-weight: 700;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            min-height: 100vh;
+        }
+
+        /* 左侧固定栏 */
+        aside {
+            padding: 80px 40px;
+            border-right: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%; /* 也可以尝试 0，变成方形更硬朗 */
+            filter: grayscale(100%);
+            margin-bottom: 30px;
+            transition: 0.5s;
+        }
+
+        .avatar:hover { filter: grayscale(0%); }
+
+        h1 {
+            font-size: 2.8rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .intro-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .contact-info div {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-label {
+            width: 70px;
+            color: #999;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 右侧内容区 */
+        main {
+            padding: 80px 60px;
+        }
+
+        section {
+            margin-bottom: 100px;
+        }
+
+        .section-header {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 40px;
+            display: block;
+            border-top: 1px solid var(--accent);
+            padding-top: 15px;
+            width: 50px;
+        }
+
+        /* 经历 - 杂志列表式 */
+        .exp-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            margin-bottom: 50px;
+            align-items: baseline;
+        }
+
+        .exp-time {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .exp-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .exp-company {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .exp-desc {
+            font-size: 0.95rem;
+            color: #444;
+            max-width: 600px;
+        }
+
+        /* 荣誉 - 瀑布流文字 */
+        .honor-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 60px;
+            row-gap: 30px;
+        }
+
+        .honor-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .honor-year {
+            font-size: 0.8rem;
+            color: #aaa;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .honor-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .honor-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Now - 重点引语 */
+        .now-block {
+            background: #fff;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            border-left: 3px solid var(--accent);
+        }
+
+        .now-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .now-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            aside { height: auto; position: relative; padding: 60px 30px; border-right: none; border-bottom: 1px solid #eee;}
+            main { padding: 60px 30px; }
+            .exp-item { grid-template-columns: 1fr; gap: 10px;}
+            .honor-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout">
+        <!-- 左侧 -->
+        <aside>
+            <div>
+                <img src="https://ui-avatars.com/api/?name=Sha&background=c05c47&color=fff&size=200" alt="Avatar" class="avatar">
+                <h1>沙僧<br>跟我来</h1>
+                <p class="intro-text">一个古早的城乡规划师、文旅操盘手，一个迟到的码农。</p>
+            </div>
+
+            <div class="contact-info">
+                <div><span class="contact-label">Loc</span> 杭州，萧山</div>
+                <div><span class="contact-label">Mail</span> arcbox@qq.com</div>
+                <div><span class="contact-label">Web</span> mrsha.github.io</div>
+                <div><span class="contact-label">WeChat</span> ideataste</div>
+                <div><span class="contact-label">Age</span> 40</div>
+            </div>
+        </aside>
+
+        <!-- 右侧 -->
+        <main>
+            <!-- 经历 -->
+            <section>
+                <span class="section-header">01</span>
+
+                <div class="exp-item">
+                    <div class="exp-time">2022 — 今</div>
+                    <div class="exp-content">
+                        <h3><b>自由职业 · 再出发</b></h3>
+                        <span class="exp-company">Independent Consultant</span>
+                        <p class="exp-desc">为政府国有企业，提供项目运营策划与咨询服务，为大型设计院，咨询公司提供设计、咨询外包服务，并潜心学习编程，目标成为城市数据分析师和ai训练师。</p>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-time">2015 — 2022</div>
+                    <div class="exp-content">
+                        <h3><b>文旅操盘手阶段</b></h3>
+                        <span class="exp-company">Real Estate & Tourism</span>
+                        <p class="exp-desc">专注于文旅的投资和操盘，擅长投资分析，团队管理，流程优化，首次操盘项目就省15%投资预算，期间获得省市奖项若干。</p>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-time">2009 — 2015</div>
+                    <div class="exp-content">
+                        <h3><b>城乡规划师阶段</b></h3>
+                        <span class="exp-company">Urban Planning & Design</span>
+                        <p class="exp-desc">主导了50+的城乡规划项目，擅长分析客户需求，找到关键诉求，优化技术流程，从而提升团队效率。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 荣誉 -->
+            <section>
+                <span class="section-header">02</span>
+                <div class="honor-list">
+                    <div class="honor-item">
+                        <span class="honor-year">2021</span>
+                        <div class="honor-title"><b>市百人计划</b></div>
+                        <div class="honor-desc">为当地城乡发展作出杰出贡献获得</div>
+                    </div>
+                    <div class="honor-item">
+                        <span class="honor-year">2021</span>
+                        <div class="honor-title"><b>省青创大赛银奖</b></div>
+                        <div class="honor-desc">参与省创业项目大赛获得</div>
+                    </div>
+                    <div class="honor-item">
+                        <span class="honor-year">2021</span>
+                        <div class="honor-title"><b>央视4套两次采访</b></div>
+                        <div class="honor-desc">乡村振兴共富典型代表</div>
+                    </div>
+                    <div class="honor-item">
+                        <span class="honor-year">2021</span>
+                        <div class="honor-title"><b>世界500强公司最佳职业经理人</b></div>
+                        <div class="honor-desc">杰出工作年度个人荣誉</div>
+                    </div>
+                    <div class="honor-item">
+                        <span class="honor-year">2020</span>
+                        <div class="honor-title"><b>世界500强公司最佳讲师</b></div>
+                        <div class="honor-desc">杰出内部授课个人荣誉</div>
+                    </div>
+                     <div class="honor-item">
+                        <span class="honor-year">2009-2022</span>
+                        <div class="honor-title"><b>最佳员工，最佳管理等荣誉</b></div>
+                        <div class="honor-desc">每个工作单位的必拿奖项</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Now -->
+            <section>
+                <span class="section-header">03</span>
+                <div class="now-block">
+                    <span class="now-label">Current Focus / 01</span>
+                    <p class="now-text">我正在完成 <b>文旅运营，城市更新，公共服务设施等</b> 项目的咨询外包工作。主要通过Ai和专业知识的结合，优化项目的工作流程，让外包工作更高效，更优质的完成。</p>
+                </div>
+                <div class="now-block">
+                    <span class="now-label">Current Focus / 02</span>
+                    <p class="now-text">我正在探索 <b>城市空间治理大模型</b> DEMO 开发。自己正在从python基础和第三方库的应用，到PyTorch，Transformers的学习过程当中。</p>
+                </div>
+            </section>
+
+            <footer style="font-size: 0.8rem; color: #bbb; margin-top: 80px;">
+                Designed with Gemini © 2024
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
